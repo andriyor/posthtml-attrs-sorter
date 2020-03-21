@@ -59,7 +59,15 @@ module.exports = function(opts) {
             })
             // alpha desc sort each group
             .sort(function(a, b) {
-              return typeof a.localeCompare === 'function' ? a.localeCompare(b) : a - b;
+              if ((a + node.attrs[a]).length < (b + node.attrs[b]).length) {
+                return -1;
+              }
+              if ((a + node.attrs[a]).length > (b + node.attrs[b]).length) {
+                return 1;
+              }
+              if ((a + node.attrs[a]).length === (b + node.attrs[b]).length) {
+                return a.localeCompare(b);
+              }
             });
         })
         // remove empty groups
