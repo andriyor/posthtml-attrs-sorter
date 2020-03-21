@@ -77,7 +77,7 @@ module.exports = function(opts) {
           return group.length > 0;
         });
 
-      notSortedAttrsIndex.sort(sortByLength);
+      notSortedAttrs.sort(sortByLength);
       sortedAttrs
         // put the non-sorted attributes in desired slot
         .splice(notSortedAttrsIndex, 0, notSortedAttrs);
