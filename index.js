@@ -21,6 +21,18 @@ module.exports = function(opts) {
         return node;
       }
 
+      var sortByLength = function(a, b) {
+        if ((a + node.attrs[a]).length < (b + node.attrs[b]).length) {
+          return -1;
+        }
+        if ((a + node.attrs[a]).length > (b + node.attrs[b]).length) {
+          return 1;
+        }
+        if ((a + node.attrs[a]).length === (b + node.attrs[b]).length) {
+          return a.localeCompare(b);
+        }
+      };
+
       var attrs = Object.keys(node.attrs);
 
       if (attrs.length === 1 || orderList.length === 0) {
@@ -58,23 +70,14 @@ module.exports = function(opts) {
               return regex.test(attr);
             })
             // alpha desc sort each group
-            .sort(function(a, b) {
-              if ((a + node.attrs[a]).length < (b + node.attrs[b]).length) {
-                return -1;
-              }
-              if ((a + node.attrs[a]).length > (b + node.attrs[b]).length) {
-                return 1;
-              }
-              if ((a + node.attrs[a]).length === (b + node.attrs[b]).length) {
-                return a.localeCompare(b);
-              }
-            });
+            .sort(sortByLength);
         })
         // remove empty groups
         .filter(function(group) {
           return group.length > 0;
         });
 
+      notSortedAttrsIndex.sort(sortByLength);
       sortedAttrs
         // put the non-sorted attributes in desired slot
         .splice(notSortedAttrsIndex, 0, notSortedAttrs);
